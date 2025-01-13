@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>PHP 8.4 Overview</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="shower/themes/rndphp/styles/styles.css">
+</head>
+<body class="shower list">
+<section class="slide preview">
+    <div class="lines"></div>
+    <div class="stripes"></div>
+    <h1>PHP 8.4</h1>
+    <p>Кочетов Даниил</p>
+</section>
+
+<section class="slide">
+    <h2>Вступление</h2>
+    <p>PHP 8.4 привносит множество новых возможностей и изменений. Мы рассмотрим основные нововведения, функциональность и изменения, которые ломают обратную совместимость.</p>
+</section>
+
+<section class="slide">
+    <h2>Что нового</h2>
+    <ul>
+        <li>Функциональный стиль вызова <code>new</code></li>
+        <li>JIT: новая реализация</li>
+        <li>Хуки свойств</li>
+        <li>Ассиметричный модификатор доступа</li>
+        <li>Функции для работы с массивами</li>
+        <li>Новые методы: <code>array_find_key</code>, <code>array_any</code>, <code>array_all</code></li>
+        <li>Атрибут <code>#[Deprecated]</code></li>
+        <li>Обновление BCMath: объектно-ориентированное программирование</li>
+        <li>Lazy load</li>
+        <li>Работа с графемами</li>
+        <li>Многобайтовые функции: <code>mb_trim</code>, <code>mb_ucfirst</code>, <code>mb_lcfirst</code></li>
+        <li>Модули PDO и Reflection</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Функциональный стиль вызова <code>new</code></h2>
+    <p>Теперь вызов конструктора может быть выполнен в функциональном стиле.</p>
+    <img src="pictures/example-new.png" alt="Пример функционального вызова new" class="place">
+</section>
+
+<section class="slide">
+    <h2>JIT: новая реализация</h2>
+    <p>Обновление JIT для повышения производительности выполнения кода.</p>
+    <img src="pictures/example-jit.png" alt="Пример JIT" class="place">
+</section>
+
+<section class="slide">
+    <h2>Хуки свойств</h2>
+    <p>Добавлены хуки для управления доступом к свойствам.</p>
+    <img src="pictures/example-property-hooks.png" alt="Пример хуков свойств" class="place">
+</section>
+
+<section class="slide">
+    <h2>Ассиметричный модификатор доступа</h2>
+    <p>Позволяет устанавливать разные модификаторы для чтения и записи свойства.</p>
+    <img src="pictures/example-asymmetric-access.png" alt="Пример ассиметричного модификатора" class="place">
+</section>
+
+<section class="slide">
+    <h2>Функции для работы с массивами</h2>
+    <p>Добавлены новые методы: <code>array_find_key</code>, <code>array_any</code>, <code>array_all</code>.</p>
+    <img src="pictures/example-array-functions.png" alt="Пример новых функций для массивов" class="place">
+</section>
+
+<section class="slide">
+    <h2>Атрибут <code>#[Deprecated]</code></h2>
+    <p>Используется для указания на устаревшие элементы кода.</p>
+    <img src="pictures/example-deprecated.png" alt="Пример #[Deprecated]" class="place">
+</section>
+
+<section class="slide">
+    <h2>Работа с графемами и текстом</h2>
+    <ul>
+        <li>Поддержка работы с графемами</li>
+        <li>Новые функции: <code>mb_trim</code>, <code>mb_ucfirst</code>, <code>mb_lcfirst</code></li>
+    </ul>
+    <img src="pictures/example-mb-functions.png" alt="Пример многобайтовых функций" class="place">
+</section>
+
+<section class="slide">
+    <h2>Изменения, которые ломают обратную совместимость</h2>
+    <ul>
+        <li><code>exit</code> и <code>die</code>: новое поведение</li>
+        <li>Ужесточение типизации</li>
+        <li>Изменения в обработке DOM</li>
+        <li>Обновления <code>opcache</code> и JIT</li>
+        <li>Новые ограничения в функциях ext-dom</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Выводы</h2>
+    <p>PHP 8.4 предлагает значительное улучшение производительности, новые возможности для разработчиков и инструменты для более качественного кода. Однако изменения требуют осторожности при обновлении.</p>
+</section>
+
+<section class="slide">
+    <h2 class="shout shrink">Вопросы?</h2>
+</section>
+
+<section class="slide">
+    <pre style="line-height: 1; font-size: 19px; font-weight: bold; color: #2e3191; font-family: monospace;"
+         class="place">
+ ______  __                                        __
+/\__  _\/\ \                                      /\ \
+\/_/\ \/\ \ \___       __          __     ___     \_\ \
+   \ \ \ \ \  _ `\   /'__`\      /'__`\ /' _ `\   /'_` \
+    \ \ \ \ \ \ \ \ /\  __/     /\  __/ /\ \/\ \ /\ \L\ \
+     \ \_\ \ \_\ \_\\ \____\    \ \____\\ \_\ \_\\ \___,_\
+      \/_/  \/_/\/_/ \/____/     \/____/ \/_/\/_/ \/__,_ /
+
+    </pre>
+</section>
+
+<div class="progress"></div>
+
+<script src="shower/shower.min.js"></script>
+<!-- Copyright © 3000 Yours Truly, Famous Inc. -->
+
+</body>
+</html>

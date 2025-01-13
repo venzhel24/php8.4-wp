@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>PHP 8.4 Overview</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="shower/themes/rndphp/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</head>
+<body class="shower list">
+
+<section class="slide preview">
+    <div class="lines"></div>
+    <div class="stripes"></div>
+    <h1>PHP 8.4 Обзор</h1>
+    <p>Кочетов Даниил</p>
+</section>
+
+<section class="slide">
+    <h2>О чем поговорим?</h2>
+    <ul>
+        <li class="next">Новый функционал</li>
+        <li class="next">Производительность</li>
+        <li class="next">Обратная совместимость</li>
+        <li class="next">Переход</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2 class="shout shrink">Новый функционал</h2>
+</section>
+
+<section class="slide">
+    <h2>Функциональный стиль вызова <code>new</code></h2>
+    <pre><code class="language-php">
+        // Старый стиль (с дополнительными скобками):
+        echo (new Rectangle(5, 10))->calculateArea() . "\n";
+
+        // Новый функциональный стиль в PHP 8.4:
+        echo new Rectangle(5, 10)->calculateArea() . "\n";
+    </code></pre>
+</section>
+
+<section class="slide">
+    <h2>JIT: новая реализация</h2>
+    <p>Обновление JIT для повышения производительности выполнения кода.</p>
+    <img src="" alt="Пример" class="place">
+</section>
+
+<section class="slide">
+    <h2>Хуки свойств</h2>
+    <pre style="font-size: 10px;"><code>
+                class Person
+                {
+                    public string $fullName {
+                        get => $this->firstName . ' ' . $this->lastName;
+                    }
+
+                    public string $firstName {
+                        set => mb_ucfirst(strtolower($value));
+                    }
+
+                    public string $lastName {
+                        set {
+                            if (strlen($value) < 2) {
+                                throw new \InvalidArgumentException('Слишком короткая фамилия');
+                            }
+
+                            $this->lastName = $value;
+                        }
+                    }
+                }
+    </code></pre>
+</section>
+
+<section class="slide">
+    <h2>Хуки свойств</h2>
+    <pre><code>
+                $p = new Person();
+                $p->firstName = 'пётр';
+                echo $p->firstName; // Выведет "Пётр"
+
+                $p->lastName = 'Петров';
+                echo $p->fullName; // Выведет "Пётр Петров"
+    </code></pre>
+</section>
+
+
+<section class="slide">
+    <h2>Ассиметричный модификатор доступа</h2>
+    <pre><code>
+                class Software
+                {
+                    public private(set) string $version = '8.4';
+                }
+
+                $software = new Software();
+
+                echo $software->version;  // Выведет "8.4"
+
+                // $software->version = '8.5';  // Ошибка: нельзя изменять значение
+    </code></pre>
+</section>
+
+<section class="slide">
+    <h2>Комбинирование хуков и асимметричного <br>модификатора доступа</h2>
+    <pre><code>
+
+    </code></pre>
+</section>
+
+<section class="slide">
+    <h2>Ассиметричный модификатор доступа</h2>
+    <ul>
+        <li><b>public private(set)</b> // Можно</li>
+        <li><b>public protected(set)</b> // Можно</li>
+        <li><b>protected private(set)</b> // Можно</li>
+        <li><b>protected public(set)</b> // Нельзя</li>
+        <li><b>private public(set)</b> // Нельзя</li>
+        <li><b>private protected(set)</b> // Нельзя</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2 class="shout shrink">Функции для работы с массивами</h2>
+</section>
+
+<section class="slide">
+    <h2>array_find()</h2>
+    <p>Функция <code>array_find()</code> находит первый элемент массива, который удовлетворяет условию.</p>
+    <pre><code>
+            $numbers = [1, 2, 3, 4, 5];
+            $found = array_find($numbers, fn($n) => $n > 3);
+            echo $found; // 4
+    </code></pre>
+</section>
+
+<section class="slide">
+    <h2>array_find_key()</h2>
+    <p>Функция <code>array_find_key()</code> находит первый ключ массива, который удовлетворяет условию.</p>
+    <pre><code>
+            $numbers = ['a' => 1, 'b' => 2, 'c' => 3];
+            $key = array_find_key($numbers, fn($n) => $n === 2);
+            echo $key; // 'b'
+    </code></pre>
+</section>
+
+<section class="slide">
+    <h2>array_any()</h2>
+    <p>Функция <code>array_any()</code> проверяет, существует ли хотя бы один элемент, который удовлетворяет условию.</p>
+    <pre><code>
+            $numbers = [1, 2, 3, 4, 5];
+            $exists = array_any($numbers, fn($n) => $n > 3);
+            echo $exists ? 'True' : 'False'; // True
+    </code></pre>
+</section>
+
+<section class="slide">
+    <h2>array_all()</h2>
+    <p>Функция <code>array_all()</code> проверяет, удовлетворяют ли все элементы массива условию.</p>
+    <pre><code>
+            $numbers = [1, 2, 3, 4, 5];
+            $all = array_all($numbers, fn($n) => $n > 0);
+            echo $all ? 'True' : 'False'; // True
+    </code></pre>
+</section>
+
+
+<section class="slide">
+    <h2>Атрибут <code>#[Deprecated]</code></h2>
+    <pre style="font-size: 12px;"><code>
+            #[\Deprecated(message: "use safe_replacement() instead", since: "1.5")]
+            function unsafe_function()
+            {
+               echo "This is unsafe", PHP_EOL;
+            }
+
+            unsafe_function();
+    </code></pre>
+    <pre class="next" style="font-size: 12px;">Результат:<code>
+            Deprecated: Function unsafe_function() is deprecated since 1.5,
+            use safe_replacement() instead in example.php on line 9
+            This is unsafe
+    </code></pre>
+</section>
+
+<section class="slide">
+    <h2>Ленивая инициализация объектов</h2>
+    <pre style="font-size: 12px;"><code>
+            class Example
+            {
+                public function __construct(private int $data) {}
+
+                // ...
+            }
+
+            $initializer = static function (Example $ghost): void {
+                $data = ...; // Получение данных или зависимостей
+
+                $ghost->__construct($data); // Инициализация объекта
+            };
+
+            $reflector = new ReflectionClass(Example::class);
+            $object = $reflector->newLazyGhost($initializer);
+    </code></pre>
+</section>
+
+
+<section class="slide">
+    <h2>Новые функции</h2>
+    <ul>
+        <li>Поддержка работы с графемами, функция <code>grapheme_str_split</code></li>
+        <li>Новые функции: <code>mb_trim</code>, <code>mb_ucfirst</code>, <code>mb_lcfirst</code></li>
+        <li>Новая функция: <code>request_parse_body</code></li>
+        <li>Новые функции: <code>http_get_last_response_headers</code>, <code>http_clear_last_response_headers</code>, <code>fpow</code></li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Сравнение производительности</h2>
+</section>
+
+<section class="slide">
+    <h2 class="shout shrink">Изменения, которые ломают обратную совместимость</h2>
+</section>
+
+<section class="slide">
+    <h2><code>exit</code> и <code>die</code>: новое поведение</h2>
+    <pre><code>
+        declare(strict_types=1);
+        exit(3.14);
+    </code></pre>
+
+    <p class="next">PHP Fatal error:  Uncaught TypeError: exit(): Argument #1 ($status) must be of type string|int, float given</p>
+</section>
+
+<section class="slide">
+    <h2>Типы параметров, неявно допускающие значение null объявлены устаревшими</h2>
+    <pre><code>
+            function greet(string $name = null): void
+            {
+                echo "Hello, " . ($name ?? "Guest") . "!\n";
+            }
+
+            greet(); // Deprecated: Implicitly allowing null for parameter $name
+    </code></pre>
+</section>
+
+<section class="slide">
+    <h2>Типы параметров, неявно допускающие значение null объявлены устаревшими</h2>
+    <pre><code>
+            function greet(?string $name = null): void
+            {
+                echo "Hello, " . ($name ?? "Guest") . "!\n";
+            }
+
+            greet(); // Hello, Guest!
+    </code></pre>
+</section>
+
+<section class="slide">
+    <h2>Обновления <code>opcache</code> и <code>JIT</code></h2>
+    <span>По умолчанию до 8.4:</span><br>
+    <code>
+        opcache.jit_buffer_size=0<br>
+        opcache.jit=tracing
+    </code>
+    <br>
+    <br>
+    <span>По умолчанию в 8.4:</span><br>
+    <code>
+        opcache.jit_buffer_size=64M<br>
+        opcache.jit=disable
+    </code>
+</section>
+
+<section class="slide">
+    <h2>Переход на 8.4, Ректор</h2>
+</section>
+
+<section class="slide">
+    <h2>Выводы</h2>
+</section>
+
+<section class="slide">
+    <h2 class="shout shrink">Вопросы</h2>
+</section>
+
+<div class="progress"></div>
+
+<script src="shower/shower.min.js"></script>
+<!-- Copyright © 3000 Yours Truly, Famous Inc. -->
+
+</body>
+</html>
