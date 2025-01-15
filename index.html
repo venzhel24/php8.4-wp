@@ -36,21 +36,16 @@
     <h2>Функциональный стиль вызова <code>new</code></h2>
     <pre><code class="language-php">
         // Старый стиль (с дополнительными скобками):
-        echo (new Rectangle(5, 10))->calculateArea() . "\n";
+        $area = (new Rectangle(5, 10))->calculateArea();
 
         // Новый функциональный стиль в PHP 8.4:
-        echo new Rectangle(5, 10)->calculateArea() . "\n";
+        $area = new Rectangle(5, 10)->calculateArea();
     </code></pre>
 </section>
 
 <section class="slide">
-    <h2>JIT: новая реализация</h2>
-    <p>Обновление JIT для повышения производительности выполнения кода.</p>
-    <img src="" alt="Пример" class="place">
-</section>
-
-<section class="slide">
     <h2>Хуки свойств</h2>
+    <div class="image-container">
     <pre style="font-size: 10px;"><code>
                 class Person
                 {
@@ -73,6 +68,16 @@
                     }
                 }
     </code></pre>
+
+        <pre><code>
+            $p = new Person();
+            $p->firstName = 'пётр';
+            echo $p->firstName; // Выведет "Пётр"
+
+            $p->lastName = 'Петров';
+            echo $p->fullName; // Выведет "Пётр Петров"
+    </code></pre>
+    </div>
 </section>
 
 <section class="slide">
@@ -107,7 +112,13 @@
 <section class="slide">
     <h2>Комбинирование хуков и асимметричного <br>модификатора доступа</h2>
     <pre><code>
-
+            class Person
+            {
+                private(set) string $name
+                {
+                    get => $this->name = ucfirst(strtolower(trim($value)));
+                }
+            }
     </code></pre>
 </section>
 
@@ -219,10 +230,6 @@
 </section>
 
 <section class="slide">
-    <h2>Сравнение производительности</h2>
-</section>
-
-<section class="slide">
     <h2 class="shout shrink">Изменения, которые ломают обратную совместимость</h2>
 </section>
 
@@ -261,6 +268,17 @@
 </section>
 
 <section class="slide">
+    <h2>Обновление round</h2>
+    <pre><code>
+            round(1.1, precision: 0, mode: INCORRECT_MODE); // ValueError
+            round(1.1, precision: 0, mode: PHP_ROUND_CEILING); // 2
+            round(1.1, precision: 1, mode: PHP_ROUND_FLOOR); // -1
+            round(1.9, precision: 0, mode: PHP_ROUND_TOWARD_ZERO); // 1
+            round(1.9,  precision: 0, mode: PHP_ROUND_AWAY_FROM_ZERO); // 2
+    </code></pre>
+</section>
+
+<section class="slide">
     <h2>Обновления <code>opcache</code> и <code>JIT</code></h2>
     <span>По умолчанию до 8.4:</span><br>
     <code>
@@ -277,11 +295,28 @@
 </section>
 
 <section class="slide">
-    <h2>Переход на 8.4, Ректор</h2>
+    <h2>Сравнение производительности</h2>
+    <div class="image-container">
+        <img src="pictures/2.png" alt="1" />
+        <img src="pictures/3.png" alt="2" />
+        <img src="pictures/1.png" alt="3" />
+        <img src="pictures/4.png" alt="4" />
+    </div>
 </section>
 
 <section class="slide">
-    <h2>Выводы</h2>
+    <h2>Переход на 8.4, Ректор</h2>
+    <pre><code>
+            $rectorConfig->rules([
+                ExplicitNullableParamTypeRector::class,
+                RoundingModeEnumRector::class
+            ]);
+    </code>
+    </pre>
+</section>
+
+<section class="slide">
+    <h2 class="shout shrink">Выводы</h2>
 </section>
 
 <section class="slide">

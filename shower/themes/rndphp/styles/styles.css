@@ -8,3 +8,17 @@
 @import 'blocks/region.css';
 @import 'slide/slide.css';
 @import 'slide/preview.css';
+
+.image-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Две колонки одинаковой ширины */
+    gap: 20px; /* Отступы между изображениями */
+    justify-items: center; /* Центрирование изображений */
+    align-items: center; /* Центрирование по вертикали */
+}
+
+.image-container img {
+    width: 80%; /* Установить ширину для картинок */
+    max-width: 300px; /* Ограничение по ширине */
+    height: auto; /* Сохранение пропорций */
+}

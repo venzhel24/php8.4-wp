@@ -55,9 +55,9 @@
     padding-right: 120px;
     width: 170px;
     height: 130px;
-    background-image: url('bottom.png');
+    /*background-image: url('bottom.png');*/
     background-size: cover;
-    color: white;
+    color: #050505;
     counter-increment: slide;
     content: counter(slide);
     text-align: center;

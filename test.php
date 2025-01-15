@@ -1,5 +1,19 @@
 <?php
 
-declare(strict_types=1);
+class Person
+{
 
-exit(3.14);
+
+    private(set) string $name
+        {
+            get => $this->name = ucfirst(strtolower(trim($value)));
+        }
+
+    /**
+     * @param string $name
+     */
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+}
