@@ -57,7 +57,7 @@
     height: 130px;
     /*background-image: url('bottom.png');*/
     background-size: cover;
-    color: #050505;
+    color: black;
     counter-increment: slide;
     content: counter(slide);
     text-align: center;

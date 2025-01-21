@@ -3,21 +3,17 @@
 .preview {
 	color: #fff;
 	line-height: initial;
-	background: url("../../pictures/background.png") no-repeat center/cover;
+	background: rgb(174,178,213);
+	background: linear-gradient(180deg, rgba(174,178,213,1) 0%, rgba(9,9,121,1) 100%);
 }
 
 .preview::before {
-	background-image: url("../../pictures/logophp-white.svg");
+	background-image: url("../../../../../pictures/logophp-white.svg");
 }
 
-/*.preview::after {*/
-/*	!*background: url("../../pictures/yellow-circle.png") 100px 25px/cover no-repeat;*!*/
-/*	width: 570px;*/
-/*	height: 350px;*/
-/*	padding: 127px 0 0 150px;*/
-/*	font: italic bold 220px/1 "Arial", sans-serif;*/
-/*	content: '#8';*/
-/*}*/
+.preview::after {
+	display: none;
+}
 
 /*.preview .lines {*/
 /*	position: absolute;*/
@@ -40,10 +36,10 @@
 
 .preview h1 {
 	position: relative;
-	top: calc(50% - 40px);
+	top: calc(35%);
 	transform: translateY(-50%);
 	margin: 0;
-	font: 300 36px/1 "Arial", sans-serif;
+	/*font: 300 36px/1 "Arial", sans-serif;*/
 }
 
 .preview p {
