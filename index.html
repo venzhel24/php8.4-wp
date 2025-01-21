@@ -22,9 +22,9 @@
     <h2>О чем поговорим?</h2>
     <ul>
         <li class="next">Новый функционал</li>
-        <li class="next">Производительность</li>
         <li class="next">Обратная совместимость</li>
         <li class="next">Переход</li>
+        <li class="next">Производительность</li>
     </ul>
 </section>
 
@@ -34,6 +34,7 @@
 
 <section class="slide">
     <h2>Функциональный стиль вызова <code>new</code></h2>
+    <div class="image-container">
     <pre><code class="language-php">
         // Старый стиль (с дополнительными скобками):
         $area = (new Rectangle(5, 10))->calculateArea();
@@ -41,6 +42,9 @@
         // Новый функциональный стиль в PHP 8.4:
         $area = new Rectangle(5, 10)->calculateArea();
     </code></pre>
+
+        <img class="next" src="pictures/eleph.jpg" alt="1" />
+    </div>
 </section>
 
 <section class="slide">
@@ -81,19 +85,6 @@
 </section>
 
 <section class="slide">
-    <h2>Хуки свойств</h2>
-    <pre><code>
-                $p = new Person();
-                $p->firstName = 'пётр';
-                echo $p->firstName; // Выведет "Пётр"
-
-                $p->lastName = 'Петров';
-                echo $p->fullName; // Выведет "Пётр Петров"
-    </code></pre>
-</section>
-
-
-<section class="slide">
     <h2>Ассиметричный модификатор доступа</h2>
     <pre><code>
                 class Software
@@ -116,7 +107,7 @@
             {
                 private(set) string $name
                 {
-                    get => $this->name = ucfirst(strtolower(trim($value)));
+                    get => ucfirst(strtolower(trim($this->name)));
                 }
             }
     </code></pre>
@@ -155,6 +146,16 @@
             $numbers = ['a' => 1, 'b' => 2, 'c' => 3];
             $key = array_find_key($numbers, fn($n) => $n === 2);
             echo $key; // 'b'
+    </code></pre>
+</section>
+
+<section class="slide">
+    <h2>array_find(), return null</h2>
+    <p><code>array_find()</code>, <code>array_find_key()</code> .Что если не нашли элемент</p>
+    <pre><code>
+            $numbers = [1, 2, 3, 4, 5];
+            $found = array_find($numbers, fn($n) => $n > 5);
+            echo $found; // null
     </code></pre>
 </section>
 
@@ -198,6 +199,87 @@
 </section>
 
 <section class="slide">
+    <h2>Атрибут <code>#[Deprecated]</code> использование</h2>
+    <pre><code>
+            class MyClass {
+                public string $version = '8.4';
+
+                #[Deprecated("Use NEW_CONST instead")]
+                public const OLD_CONST = 1;
+
+                #[Deprecated("Use newMethod() instead")]
+                public function oldMethod() {
+                    echo "This is an old method.\n";
+                }
+            }
+  </code></pre>
+</section>
+
+<section class="slide">
+    <h2>ext-Dom, Как было</h2>
+    <pre style="font-size: 12px"><code>
+        $dom = new DOMDocument();
+        $dom->loadHTML(
+            <<<'HTML'
+                &lt;main&gt;
+                    &lt;article&gt;PHP 8.4 is a feature-rich release!&lt;/article&gt;
+                    &lt;article class="featured"&gt;PHP 8.4 adds new DOM classes that are spec-compliant, keeping the old ones for.&lt;/article&gt;
+                &lt;/main&gt;
+            HTML,
+            LIBXML_NOERROR,
+        );
+
+        $xpath = new DOMXPath($dom);
+        $node = $xpath->query(".//main/article[not(following-sibling::*)]")[0];
+        $classes = explode(" ", $node->className); // Simplified
+        var_dump(in_array("featured", $classes)); // bool(true)
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>ext-Dom, новые возможности</h2>
+    <pre style="font-size: 12px"><code>
+            $dom = Dom\HTMLDocument::createFromString(
+            &emsp;&lt;&lt;&lt;'HTML'
+                &lt;main&gt;
+                    &lt;article&gt;PHP 8.4 is a feature-rich release!&lt;/article&gt;
+                    &lt;article class="featured"&gt;PHP 8.4 adds new DOM classes that are spec-compliant, keeping the old ones for.&lt;/article&gt;
+                &lt;/main&gt;
+                HTML,
+            LIBXML_NOERROR,
+            );
+
+        $node = $dom-&gt;querySelector('main &gt; article:last-child');
+        var_dump($node-&gt;classList-&gt;contains("featured")); // bool(true)
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>Объектно-ориентированный API для BCMath</h2>
+    <div class="image-container">
+    <pre style="font-size: 14px"><code>
+            $num1 = '0.12345';
+            $num2 = 2;
+            $result = bcadd($num1, $num2, 5);
+
+            echo $result; // '2.12345'
+            var_dump(bccomp($num1, $num2) > 0); // false
+</code></pre>
+
+    <pre style="font-size: 14px"><code>
+            use BcMath\Number;
+
+            $num1 = new Number('0.12345');
+            $num2 = new Number('2');
+            $result = $num1 + $num2;
+
+            echo $result; // '2.12345'
+            var_dump($num1 > $num2); // false
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
     <h2>Ленивая инициализация объектов</h2>
     <pre style="font-size: 12px;"><code>
             class Example
@@ -218,15 +300,48 @@
     </code></pre>
 </section>
 
+<section class="slide">
+    <h2><code>request_parse_body</code></h2>
+    <pre><code>
+                [$_POST, $_FILES] = request_parse_body([
+                    'post_max_size' => '10M',
+                    'upload_max_filesize' => '10M',
+                ]);
+        </code></pre>
+    <p>RequestParseBodyException<br>
+        ValueError
+    </p>
+</section>
 
 <section class="slide">
-    <h2>Новые функции</h2>
-    <ul>
-        <li>Поддержка работы с графемами, функция <code>grapheme_str_split</code></li>
-        <li>Новые функции: <code>mb_trim</code>, <code>mb_ucfirst</code>, <code>mb_lcfirst</code></li>
-        <li>Новая функция: <code>request_parse_body</code></li>
-        <li>Новые функции: <code>http_get_last_response_headers</code>, <code>http_clear_last_response_headers</code>, <code>fpow</code></li>
-    </ul>
+    <h2><code>grapheme_str_split</code></h2>
+    <div style="display: flex; justify-content: space-between;">
+        <pre><code>
+        $string = "👨‍👩‍👧‍👦";
+
+        $array = grapheme_str_split($string);
+        print_r($array);
+
+        $array2 = grapheme_str_split($string, 2);
+        print_r($array2);
+        </code></pre>
+        <div class="next" style="word-wrap: break-word; flex: 1; margin-left: 20px;">
+            <pre style="font-size: 13px;"><code>
+                    Array
+                    (
+                        [0] => 👨‍
+                        [1] => 👩‍
+                        [2] => 👧‍
+                        [3] => 👦
+                    )
+                    Array
+                    (
+                        [0] => 👨‍👩‍
+                        [1] => 👧‍👦
+                    )
+            </code></pre>
+        </div>
+    </div>
 </section>
 
 <section class="slide">
@@ -274,7 +389,7 @@
             round(1.1, precision: 0, mode: PHP_ROUND_CEILING); // 2
             round(1.1, precision: 1, mode: PHP_ROUND_FLOOR); // -1
             round(1.9, precision: 0, mode: PHP_ROUND_TOWARD_ZERO); // 1
-            round(1.9,  precision: 0, mode: PHP_ROUND_AWAY_FROM_ZERO); // 2
+            round(1.9, precision: 0, mode: PHP_ROUND_AWAY_FROM_ZERO); // 2
     </code></pre>
 </section>
 
@@ -316,7 +431,64 @@
 </section>
 
 <section class="slide">
-    <h2 class="shout shrink">Выводы</h2>
+    <h2>Выводы</h2>
+    <table class="table-slide">
+        <thead>
+        <tr>
+            <th>Branch</th>
+            <th colspan="2">Initial Release</th>
+            <th colspan="2">Active Support Until</th>
+            <th colspan="2">Security Support Until</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><a>8.1</a></td>
+            <td>25 Nov 2021</td>
+            <td><em>3 years, 1 month ago</em></td>
+            <td>25 Nov 2023</td>
+            <td><em>1 year, 1 month ago</em></td>
+            <td>31 Dec 2025</td>
+            <td><em>in 11 months</em></td>
+        </tr>
+        <tr>
+            <td><a>8.2</a></td>
+            <td>8 Dec 2022</td>
+            <td><em>2 years, 1 month ago</em></td>
+            <td>31 Dec 2024</td>
+            <td><em>20 days ago</em></td>
+            <td>31 Dec 2026</td>
+            <td><em>in 1 year, 11 months</em></td>
+        </tr>
+        <tr>
+            <td><a>8.3</a></td>
+            <td>23 Nov 2023</td>
+            <td><em>1 year, 1 month ago</em></td>
+            <td>31 Dec 2025</td>
+            <td><em>in 11 months</em></td>
+            <td>31 Dec 2027</td>
+            <td><em>in 2 years, 11 months</em></td>
+        </tr>
+        <tr>
+            <td><a>8.4</a></td>
+            <td>21 Nov 2024</td>
+            <td><em>1 month ago</em></td>
+            <td>31 Dec 2026</td>
+            <td><em>in 1 year, 11 months</em></td>
+            <td>31 Dec 2028</td>
+            <td><em>in 3 years, 11 months</em></td>
+        </tr>
+        <tr>
+            <td><a>8.5</a></td>
+            <td>20 Nov 2025</td>
+            <td><em>in 9 months</em></td>
+            <td>31 Dec 2027</td>
+            <td><em>in 2 year, 11 months</em></td>
+            <td>31 Dec 2029</td>
+            <td><em>in 4 years, 11 months</em></td>
+        </tr>
+        </tbody>
+    </table>
 </section>
 
 <section class="slide">
