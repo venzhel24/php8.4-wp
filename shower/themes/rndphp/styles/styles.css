@@ -1,0 +1,91 @@
+/* Styles */
+
+@import 'fonts.css';
+@import 'shower/shower.css';
+@import 'blocks/badge.css';
+@import 'blocks/caption.css';
+@import 'blocks/progress.css';
+@import 'blocks/region.css';
+@import 'slide/slide.css';
+@import 'slide/preview.css';
+
+.image-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Две колонки одинаковой ширины */
+    gap: 20px; /* Отступы между изображениями */
+    justify-items: center; /* Центрирование изображений */
+    align-items: center; /* Центрирование по вертикали */
+}
+
+.image-container img {
+    width: 80%; /* Установить ширину для картинок */
+    max-width: 300px; /* Ограничение по ширине */
+    height: auto; /* Сохранение пропорций */
+}
+
+.table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Высота экрана */
+    padding: 20px; /* Отступы вокруг контента */
+    box-sizing: border-box; /* Учитываем отступы в размерах */
+}
+
+.table-slide {
+    width: 100%; /* Таблица занимает всю доступную ширину */
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.table-slide th,
+.table-slide td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.table-slide th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.table-slide td {
+    background-color: #fff;
+    word-break: break-word; /* Перенос текста для длинных строк */
+}
+
+.table-slide tbody tr:nth-child(even) td {
+    background-color: #f9f9f9;
+}
+
+.table-slide tbody tr:hover td {
+    background-color: #f1f1f1;
+}
+
+.table-container {
+    overflow-x: auto; /* Горизонтальный скролл, если таблица шире контейнера */
+}
+
+.code-output {
+    display: flex;
+    justify-content: space-between;
+}
+
+.code-output pre {
+    margin: 0;
+    width: 45%;
+}
+
+.output {
+    background: #f4f4f4;
+    padding: 10px;
+    border-radius: 5px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    width: 45%;
+}
+
+.slide code {
+    padding: 0;
+}
