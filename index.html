@@ -322,7 +322,7 @@
         $array = grapheme_str_split($string);
         print_r($array);
 
-        $array2 = grapheme_str_split($string, 2);
+        $array2 = grapheme_str_split($string, 3);
         print_r($array2);
         </code></pre>
         <div class="next" style="word-wrap: break-word; flex: 1; margin-left: 20px;">
@@ -336,8 +336,8 @@
                     )
                     Array
                     (
-                        [0] => 👨‍👩‍
-                        [1] => 👧‍👦
+                        [0] => 👨‍👩‍👧‍
+                        [1] => 👦
                     )
             </code></pre>
         </div>
@@ -345,7 +345,7 @@
 </section>
 
 <section class="slide">
-    <h2 class="shout shrink">Изменения, которые ломают обратную совместимость</h2>
+    <h2 class="shout shrink" style="font-size: 72px">Изменения, которые ломают обратную совместимость</h2>
 </section>
 
 <section class="slide">
@@ -428,6 +428,7 @@
             ]);
     </code>
     </pre>
+    <code>vendor/bin/rector process</code>
 </section>
 
 <section class="slide">
