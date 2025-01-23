@@ -14,7 +14,7 @@
     display: block;
     width: 100%;
     height: var(--progress-size);
-    background-color: #9451e4;
+    background-color: #ad91fa;
     content: '';
     transform-origin: 0 100%;
     transform: skewX(45deg);

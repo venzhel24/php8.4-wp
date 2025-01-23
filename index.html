@@ -102,14 +102,22 @@
 
 <section class="slide">
     <h2>Комбинирование хуков и асимметричного <br>модификатора доступа</h2>
-    <pre><code>
-            class Person
-            {
-                private(set) string $name
+    <pre style="font-size: 11px;"><code>
+                class Person
                 {
-                    get => ucfirst(strtolower(trim($this->name)));
+                    public function __construct(string $name)
+                    {
+                        $this->name = $name;
+                    }
+
+                    private(set) string $name
+                    {
+                        get => ucfirst(strtolower(trim($this->name)));
+                    }
                 }
-            }
+
+                $tmp = new Person('ДЕНИС');
+                echo $tmp->name; // Выведет: Денис
     </code></pre>
 </section>
 
@@ -165,7 +173,7 @@
     <pre><code>
             $numbers = [1, 2, 3, 4, 5];
             $exists = array_any($numbers, fn($n) => $n > 3);
-            echo $exists ? 'True' : 'False'; // True
+            echo $exists; // True
     </code></pre>
 </section>
 
@@ -175,7 +183,7 @@
     <pre><code>
             $numbers = [1, 2, 3, 4, 5];
             $all = array_all($numbers, fn($n) => $n > 0);
-            echo $all ? 'True' : 'False'; // True
+            echo $all; // True
     </code></pre>
 </section>
 
@@ -281,23 +289,30 @@
 
 <section class="slide">
     <h2>Ленивая инициализация объектов</h2>
-    <pre style="font-size: 12px;"><code>
-            class Example
-            {
-                public function __construct(private int $data) {}
-
-                // ...
+    <div class="image-container">
+        <pre style="font-size: 14px"><code>
+        class MyClass {
+            public function __construct(private int $value) {
+                echo "MyClass создан с value = {$this->value}\n";
             }
 
-            $initializer = static function (Example $ghost): void {
-                $data = ...; // Получение данных или зависимостей
+            public function getValue(): int {
+                return $this->value;
+            }
+        }
 
-                $ghost->__construct($data); // Инициализация объекта
-            };
+        $initializer = static function (MyClass $proxy): MyClass {
+            return new MyClass(123);
+        };
+        </code></pre>
+            <pre style="font-size: 13px;"><code>
+            $reflector = new ReflectionClass(MyClass::class);
+            $object = $reflector->newLazyProxy($initializer);
 
-            $reflector = new ReflectionClass(Example::class);
-            $object = $reflector->newLazyGhost($initializer);
-    </code></pre>
+            // При обращении к объекту происходит инициализация
+            echo "Value: " . $object->getValue() . "\n";
+            </code></pre>
+    </div>
 </section>
 
 <section class="slide">
@@ -327,18 +342,18 @@
         </code></pre>
         <div class="next" style="word-wrap: break-word; flex: 1; margin-left: 20px;">
             <pre style="font-size: 13px;"><code>
-                    Array
-                    (
-                        [0] => 👨‍
-                        [1] => 👩‍
-                        [2] => 👧‍
-                        [3] => 👦
-                    )
-                    Array
-                    (
-                        [0] => 👨‍👩‍👧‍
-                        [1] => 👦
-                    )
+                        Array
+                        (
+                            [0] => 👨‍
+                            [1] => 👩‍
+                            [2] => 👧‍
+                            [3] => 👦
+                        )
+                        Array
+                        (
+                            [0] => 👨‍👩‍👧‍
+                            [1] => 👦
+                        )
             </code></pre>
         </div>
     </div>
