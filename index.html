@@ -105,14 +105,14 @@
     <pre style="font-size: 11px;"><code>
                 class Person
                 {
-                    public function __construct(string $name)
-                    {
-                        $this->name = $name;
-                    }
-
                     private(set) string $name
                     {
                         get => ucfirst(strtolower(trim($this->name)));
+                    }
+
+                    public function __construct(string $name)
+                    {
+                        $this->name = $name;
                     }
                 }
 
